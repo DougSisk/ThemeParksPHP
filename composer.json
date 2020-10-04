@@ -1,4 +1,18 @@
 {
+    "name": "dougsisk/theme-parks-php",
+    "description": "PHP library for ThemeParks.wiki",
+    "keywords": ["theme park", "themeparks", "disney", "universal"],
+    "homepage": "https://github.com/DougSisk/ThemeParksPHP",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Doug Sisk",
+            "homepage": "https://dougsisk.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/DougSisk/ThemeParksPHP/issues"
+    },
     "require": {
         "php": "^7.3",
         "guzzlehttp/guzzle": "^7.0",
