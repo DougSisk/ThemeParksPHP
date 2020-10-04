@@ -26,5 +26,8 @@
         "psr-4": {
             "ThemeParks\\": "src/"
         }
+    },
+    "scripts": {
+        "test": "phpunit"
     }
 }
