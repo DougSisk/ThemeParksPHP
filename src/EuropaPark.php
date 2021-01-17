@@ -6,7 +6,7 @@ use DateTimeZone;
 
 final class EuropaPark extends Park
 {
-    public string $name = "Europa Park";
+    public string $name = 'Europa Park';
 
     protected $parkApiId = 'EuropaPark';
 
