@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Collection;
+use PHPUnit\Framework\TestCase;
 use ThemeParks\Disney\WaltDisneyWorld\MagicKingdom;
 use ThemeParks\Park;
 use ThemeParks\Universal\Orlando\UniversalStudiosFlorida;
-use PHPUnit\Framework\TestCase;
 
 class ThemeParkTest extends TestCase
 {
@@ -14,7 +14,7 @@ class ThemeParkTest extends TestCase
         $this->assertInstanceOf(Park::class, $park);
 
         $openingTimes = $park->fetchOpeningTimes();
-        
+
         $this->assertIsArray($openingTimes->toArray());
         $this->assertInstanceOf(DateTime::class, $openingTimes->first()->openingTime);
         $this->assertInstanceOf(Collection::class, $openingTimes->first()->special);
@@ -24,7 +24,7 @@ class ThemeParkTest extends TestCase
     {
         $park = new MagicKingdom();
         $this->assertInstanceOf(Park::class, $park);
-        
+
         $waitTimes = $park->fetchWaitTimes();
 
         $this->assertIsArray($waitTimes->toArray());

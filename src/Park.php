@@ -22,7 +22,7 @@ abstract class Park
     {
         $this->attractions = new Collection();
         $this->client = new Client([
-            'base_uri' => 'https://api.themeparks.wiki/preview/parks/' . $this->parkApiId . '/',
+            'base_uri' => 'https://api.themeparks.wiki/preview/parks/'.$this->parkApiId.'/',
         ]);
         $this->schedule = new Collection();
     }
@@ -31,7 +31,7 @@ abstract class Park
     {
         $response = $this->client->get('calendar');
         $data = json_decode((string) $response->getBody());
-        
+
         foreach ($data as $schedule) {
             if (! $this->schedule->get($schedule->date)) {
                 $this->schedule->put($schedule->date, new Schedule($schedule->openingTime, $this->timezone));

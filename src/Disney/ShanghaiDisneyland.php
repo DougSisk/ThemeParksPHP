@@ -7,7 +7,7 @@ use ThemeParks\Park;
 
 final class ShanghaiDisneyland extends Park
 {
-    public string $name = "Shanghai Disneyland";
+    public string $name = 'Shanghai Disneyland';
 
     protected $parkApiId = 'ShanghaiDisneylandPark';
 

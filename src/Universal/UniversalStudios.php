@@ -7,7 +7,7 @@ use ThemeParks\Park;
 
 final class UniversalStudios extends Park
 {
-    public string $name = "Universal Studios Hollywood";
+    public string $name = 'Universal Studios Hollywood';
 
     protected $parkApiId = 'UniversalStudios';
 
