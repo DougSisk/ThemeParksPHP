@@ -16,7 +16,7 @@ abstract class Park
 
     public Collection $schedule;
 
-    public ?DateTimeZone $timezone;
+    public ?DateTimeZone $timezone = null;
 
     public function __construct()
     {
