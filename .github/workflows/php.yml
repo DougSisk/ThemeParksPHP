@@ -1,18 +1,28 @@
-name: PHP Composer
+name: tests
 
 on:
   push:
-    branches: [ master ]
   pull_request:
-    branches: [ master ]
 
 jobs:
-  build:
+  tests:
 
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        php: ['7.3', '7.4', '8.0']
+
+    name: PHP ${{ matrix.php }} tests
     steps:
     - uses: actions/checkout@v2
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+        tools: composer:v2
+        coverage: none
 
     - name: Validate composer.json and composer.lock
       run: composer validate
