@@ -22,7 +22,7 @@ abstract class Park
     {
         $this->attractions = new Collection();
         $this->client = new Client([
-            'base_uri' => 'https://api.themeparks.wiki/preview/parks/'.$this->parkApiId.'/',
+            'base_uri' => 'https://api.themeparks.wiki/preview/parks/' . $this->parkApiId . '/',
         ]);
         $this->schedule = new Collection();
     }
