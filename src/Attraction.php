@@ -20,7 +20,7 @@ class Attraction
 
     public bool $singleRider = false;
 
-    public string $status = 'Closed';
+    public ?string $status = 'Closed';
 
     public ?int $waitTime = null;
 
@@ -69,9 +69,11 @@ class Attraction
         return $this;
     }
 
-    public function updateStatus(string $status): self
+    public function updateStatus(?string $status): self
     {
-        $this->status = $status;
+        if ($status) {
+            $this->status = $status;
+        }
 
         return $this;
     }

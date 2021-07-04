@@ -52,7 +52,9 @@ abstract class Park
         $response = $this->client->get('waittime');
         $data = new Collection(json_decode((string) $response->getBody()));
 
-        $data->transform(function ($attraction) {
+        $data->filter(function ($attraction) {
+            return preg_match("/{$this->parkApiId}_[0-9]+/", $attraction->id);
+        })->transform(function ($attraction) {
             $attraction->id = $this->filterAttractionId($attraction->id);
 
             return $attraction;
