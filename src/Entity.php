@@ -10,6 +10,8 @@ class Entity
 
     public const STATUS_OPERATING = 'OPERATING';
 
+    public const STATUS_REFURBISHMENT = 'REFURBISHMENT';
+
     public const TYPE_ATTRACTION = 'ATTRACTION';
 
     public const TYPE_DESTINATION = 'DESTINATION';
