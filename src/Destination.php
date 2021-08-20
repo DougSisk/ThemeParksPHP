@@ -2,9 +2,9 @@
 
 namespace ThemeParks;
 
-use Illuminate\Support\Collection;
+use JsonSerializable;
 
-class Destination extends Entity
+class Destination extends Entity implements JsonSerializable
 {
     /**
      * Slug of the destination
@@ -33,5 +33,15 @@ class Destination extends Entity
         $this->id = $id;
         $this->name = $name;
         $this->slug = $slug;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'slug' => $this->slug,
+            'type' => $this->type,
+        ];
     }
 }

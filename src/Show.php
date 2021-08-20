@@ -56,4 +56,18 @@ class Show extends Entity
 
         return $this;
     }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'closed' => $this->closed(),
+            'down' => $this->down(),
+            'id' => $this->id,
+            'name' => $this->name,
+            'operating' => $this->operating(),
+            'showTimes' => $this->showTimes,
+            'status' => $this->status,
+            'type' => $this->type,
+        ];
+    }
 }

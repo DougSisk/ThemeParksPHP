@@ -4,8 +4,9 @@ namespace ThemeParks;
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use JsonSerializable;
 
-class Restaurant extends Entity
+class Restaurant extends Entity implements JsonSerializable
 {
     use Traits\BelongsToPark;
     use Traits\HasLastUpdated;
@@ -46,5 +47,20 @@ class Restaurant extends Entity
         }
 
         return $this;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'closed' => $this->closed(),
+            'down' => $this->down(),
+            'id' => $this->id,
+            'name' => $this->name,
+            'operating' => $this->operating(),
+            'queue' => $this->queue,
+            'status' => $this->status,
+            'type' => $this->type,
+            'waitTime' => $this->waitTime(),
+        ];
     }
 }

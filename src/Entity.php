@@ -3,8 +3,9 @@
 namespace ThemeParks;
 
 use Illuminate\Support\Collection;
+use JsonSerializable;
 
-class Entity
+class Entity implements JsonSerializable
 {
     public const STATUS_CLOSED = 'CLOSED';
 
@@ -90,5 +91,14 @@ class Entity
         $this->children->put($id, $entity);
 
         return $this->children;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'type' => $this->type,
+        ];
     }
 }
