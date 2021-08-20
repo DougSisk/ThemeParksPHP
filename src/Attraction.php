@@ -2,85 +2,79 @@
 
 namespace ThemeParks;
 
-use DateTime;
+use Carbon\Carbon;
+use Illuminate\Support\Collection;
 
-class Attraction
+class Attraction extends Entity
 {
-    public bool $active = false;
+    use Traits\BelongsToPark;
+    use Traits\HasLastUpdated;
+    use Traits\HasQueues;
+    use Traits\HasStatus;
 
-    public bool $fastPass = false;
+    /**
+     * Type of entity
+     *
+     * @var string
+     */
+    public string $type = parent::TYPE_ATTRACTION;
 
-    public $id;
-
-    public DateTime $lastUpdate;
-
-    public object $meta;
-
-    public string $name;
-
-    public bool $singleRider = false;
-
-    public ?string $status = 'Closed';
-
-    public ?int $waitTime = null;
-
-    public function __construct($id, string $name)
+    /**
+     * Create new destination instance
+     *
+     * @param  string  $id
+     * @param  string  $name
+     * @param  string  $parkId
+     * @return void
+     */
+    public function __construct(string $id, string $name, ?string $parkId)
     {
         $this->id = $id;
         $this->name = $name;
+        $this->parkId = $parkId;
     }
 
-    public function updateActive(bool $active): self
+    public function populate(object $data): self
     {
-        $this->active = $active;
+        $this->lastUpdated = Carbon::parse($data->lastUpdated);
+        $this->status = $data->status;
 
-        return $this;
-    }
+        $this->queue = new Collection();
 
-    public function updateFastPass(bool $fastPass): self
-    {
-        $this->fastPass = $fastPass;
+        if (isset($data->queue->BOARDING_GROUP)) {
+            $boardingGroup = new Queue\BoardingGroup();
+            $boardingGroup->setAllocationStatus($data->queue->BOARDING_GROUP->allocationStatus);
+            $boardingGroup->setEstimatedWait($data->queue->BOARDING_GROUP->estimatedWait);
+            $boardingGroup->setNextAllocationTime($data->queue->BOARDING_GROUP->nextAllocationTime);
+            $boardingGroup->setCurrentGroups($data->queue->BOARDING_GROUP->currentGroupStart, $data->queue->BOARDING_GROUP->currentGroupEnd);
 
-        return $this;
-    }
-
-    public function updateLastUpdate($lastUpdate): self
-    {
-        if (! $lastUpdate instanceof DateTime) {
-            $lastUpdate = new DateTime($lastUpdate);
+            $this->queue->put('BOARDING_GROUP', $boardingGroup);
         }
 
-        $this->lastUpdate = $lastUpdate;
+        if (isset($data->queue->PAID_RETURN_TIME)) {
+            $paidReturnTime = new Queue\ReturnTime();
+            $paidReturnTime->setPrice($data->queue->PAID_RETURN_TIME->price->amount, $data->queue->PAID_RETURN_TIME->price->currency);
+            $paidReturnTime->setReturn($data->queue->PAID_RETURN_TIME->returnStart, $data->queue->PAID_RETURN_TIME->returnEnd);
+            $paidReturnTime->setState($data->queue->PAID_RETURN_TIME->state);
 
-        return $this;
-    }
-
-    public function updateMeta(?object $meta): self
-    {
-        $this->meta = $meta;
-
-        return $this;
-    }
-
-    public function updateSingleRider(bool $singleRider): self
-    {
-        $this->singleRider = $singleRider;
-
-        return $this;
-    }
-
-    public function updateStatus(?string $status): self
-    {
-        if ($status) {
-            $this->status = $status;
+            $this->queue->put('PAID_RETURN_TIME', $paidReturnTime);
         }
 
-        return $this;
-    }
+        if (isset($data->queue->RETURN_TIME)) {
+            $returnTime = new Queue\ReturnTime();
+            $returnTime->setReturn($data->queue->RETURN_TIME->returnStart, $data->queue->RETURN_TIME->returnEnd);
+            $returnTime->setState($data->queue->RETURN_TIME->state);
 
-    public function updateWaitTime(?int $waitTime): self
-    {
-        $this->waitTime = $waitTime;
+            $this->queue->put('RETURN_TIME', $returnTime);
+        }
+
+        if (isset($data->queue->STANDBY)) {
+            $this->queue->put('STANDBY', new Queue\WaitTime('STANDBY', $data->queue->STANDBY->waitTime));
+        }
+
+        if (isset($data->queue->SINGLE_RIDER)) {
+            $this->queue->put('SINGLE_RIDER', new Queue\WaitTime('SINGLE_RIDER', $data->queue->SINGLE_RIDER->waitTime));
+        }
 
         return $this;
     }

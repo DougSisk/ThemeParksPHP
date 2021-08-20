@@ -2,33 +2,23 @@
 
 use Illuminate\Support\Collection;
 use PHPUnit\Framework\TestCase;
-use ThemeParks\Disney\WaltDisneyWorld\MagicKingdom;
+use ThemeParks\Destinations\Disney\WaltDisneyWorld\MagicKingdom;
+use ThemeParks\Entity;
+use ThemeParks\Known\KnownPark;
 use ThemeParks\Park;
-use ThemeParks\Universal\Orlando\UniversalStudiosFlorida;
 
 class ThemeParkTest extends TestCase
 {
-    public function testFetchOpeningTimes()
-    {
-        $park = new UniversalStudiosFlorida();
-        $this->assertInstanceOf(Park::class, $park);
-
-        $openingTimes = $park->fetchOpeningTimes();
-
-        $this->assertIsArray($openingTimes->toArray());
-        $this->assertInstanceOf(DateTime::class, $openingTimes->first()->openingTime);
-        $this->assertInstanceOf(Collection::class, $openingTimes->first()->special);
-    }
-
     public function testFetchWaitTimes()
     {
         $park = new MagicKingdom();
-        $this->assertInstanceOf(Park::class, $park);
+        $this->assertInstanceOf(KnownPark::class, $park);
+        $this->assertInstanceOf(Park::class, $park->entity);
+        $this->assertSame($park->entity->name, 'Magic Kingdom Park');
 
-        $waitTimes = $park->fetchWaitTimes();
+        $live = $park->getLiveChildren();
 
-        $this->assertIsArray($waitTimes->toArray());
-        $this->assertIsBool($waitTimes->where('active', true)->first()->active);
-        $this->assertIsInt($waitTimes->where('waitTime', '>', 0)->first()->waitTime);
+        $this->assertInstanceOf(Collection::class, $live);
+        $this->assertInstanceOf(Collection::class, $live->where('type', Entity::TYPE_ATTRACTION)->first()->queue);
     }
 }
