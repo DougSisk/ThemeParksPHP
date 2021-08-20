@@ -20,7 +20,7 @@ class Entity
 
     public const TYPE_SHOW = 'SHOW';
 
-     /**
+    /**
      * UUID of the entity
      *
      * @var string
