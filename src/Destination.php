@@ -6,8 +6,6 @@ use Illuminate\Support\Collection;
 
 class Destination extends Entity
 {
-    use Traits\HasChildren;
-
     /**
      * Slug of the destination
      *

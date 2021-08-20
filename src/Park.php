@@ -4,8 +4,6 @@ namespace ThemeParks;
 
 class Park extends Entity
 {
-    use Traits\HasChildren;
-
     public string $type = parent::TYPE_PARK;
 
     /**

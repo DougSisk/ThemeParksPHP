@@ -64,7 +64,7 @@ abstract class BaseKnown
 
         if ($this->entity->getChildren()) {
             $live->each(function ($liveEntity) {
-                $this->entity->getChildren()->put($liveEntity->id, $liveEntity);
+                $this->entity->setChild($liveEntity->id, $liveEntity);
             });
         } else {
             $this->entity->setChildren($live);
