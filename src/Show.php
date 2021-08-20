@@ -27,7 +27,7 @@ class Show extends Entity
     public string $type = parent::TYPE_SHOW;
 
     /**
-     * Create new destination instance
+     * Create new show instance
      *
      * @param  string  $id
      * @param  string  $name

@@ -20,7 +20,7 @@ class Attraction extends Entity
     public string $type = parent::TYPE_ATTRACTION;
 
     /**
-     * Create new destination instance
+     * Create new attraction instance
      *
      * @param  string  $id
      * @param  string  $name

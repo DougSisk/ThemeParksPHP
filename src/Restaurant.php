@@ -20,7 +20,7 @@ class Restaurant extends Entity
     public string $type = parent::TYPE_RESTAURANT;
 
     /**
-     * Create new destination instance
+     * Create new restaurant instance
      *
      * @param  string  $id
      * @param  string  $name
