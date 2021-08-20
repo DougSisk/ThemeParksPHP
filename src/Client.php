@@ -93,6 +93,8 @@ class Client
             return new Destination($entity->id, $entity->name, $entity->slug);
         } elseif ($entity->entityType == Entity::TYPE_PARK) {
             return new Park($entity->id, $entity->name);
+        } elseif ($entity->entityType == Entity::TYPE_RESTAURANT) {
+            return new Restaurant($entity->id, $entity->name, $entity->parkId ?? null);
         }
 
         return new Entity($entity->id, $entity->name, $entity->entityType);
