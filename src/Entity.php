@@ -16,6 +16,8 @@ class Entity
 
     public const TYPE_DESTINATION = 'DESTINATION';
 
+    public const TYPE_HOTEL = 'HOTEL';
+
     public const TYPE_PARK = 'PARK';
 
     public const TYPE_RESTAURANT = 'RESTAURANT';
