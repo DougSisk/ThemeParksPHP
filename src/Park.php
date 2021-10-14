@@ -47,18 +47,20 @@ abstract class Park
         return $this->schedule;
     }
 
-    public function fetchWaitTimes(): Collection
+    public function fetchWaitTimes(bool $includeUuid = false): Collection
     {
         $response = $this->client->get('waittime');
         $data = new Collection(json_decode((string) $response->getBody()));
 
-        $data->filter(function ($attraction) {
-            return preg_match("/{$this->parkApiId}_[0-9]+/", $attraction->id);
-        })->transform(function ($attraction) {
-            $attraction->id = $this->filterAttractionId($attraction->id);
+        if (! $includeUuid) {
+            $data->filter(function ($attraction) {
+                return preg_match("/{$this->parkApiId}_[0-9]+/", $attraction->id);
+            })->transform(function ($attraction) {
+                $attraction->id = $this->filterAttractionId($attraction->id);
 
-            return $attraction;
-        });
+                return $attraction;
+            });
+        }
 
         foreach ($data as $attraction) {
             if (! $this->attractions->get($attraction->id)) {
