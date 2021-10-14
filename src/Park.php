@@ -40,7 +40,7 @@ abstract class Park
             $this->schedule->get($schedule->date)
                 ->setClosingTime($schedule->closingTime)
                 ->setOpeningTime($schedule->openingTime)
-                ->setSpecial($schedule->special)
+                ->setSpecial($schedule->special ?? [])
                 ->setType($schedule->type);
         }
 
