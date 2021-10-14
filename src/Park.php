@@ -60,6 +60,14 @@ abstract class Park
 
                 return $attraction;
             });
+        } else {
+            $data->transform(function ($attraction) {
+                if (preg_match("/{$this->parkApiId}_[0-9]+/", $attraction->id)) {
+                    $attraction->id = $this->filterAttractionId($attraction->id);
+                }
+
+                return $attraction;
+            });
         }
 
         foreach ($data as $attraction) {
